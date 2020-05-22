@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { HttpServiceService } from './http-service.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'pipe1';
+  countries: any;
+  config: any;
+  totalNumber: number;
+  pno = 1;
+  perPage=20;
+
+  constructor(@Inject(HttpServiceService) private httpService) {
+    this.httpService.getData().subscribe(data => {
+      this.countries = data;
+      this.totalNumber = Object.values(data).length
+    });
+  }
 }
